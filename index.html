@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>情緒調色盤：貓咪的窗景與色彩對比</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans TC & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    .serif-title {
+      font-family: 'Noto Serif TC', serif;
+    }
+    /* SVG interactive coloring sections */
+    .color-part {
+      cursor: pointer;
+      transition: fill 0.15s ease, filter 0.15s ease, stroke-width 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .color-part:hover {
+      filter: brightness(1.08) drop-shadow(0 0 6px rgba(99, 102, 241, 0.4));
+      stroke-width: 4.5px !important;
+    }
+    .color-part:active {
+      filter: brightness(0.92);
+    }
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-amber-100 selection:text-amber-800">
+
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-amber-400 flex items-center justify-center text-white shadow-md">
+          <i class="fa-solid fa-palette text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg text-slate-900 leading-tight">情緒調色盤</h1>
+          <p class="text-[11px] sm:text-xs text-slate-500">貓咪窗景與色彩對比微型學習</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="guide-modal-btn" class="px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-slate-50 border border-slate-200 rounded-lg transition-all flex items-center gap-1.5">
+          <i class="fa-regular fa-circle-question"></i>
+          <span class="hidden sm:inline">色彩學習指南</span>
+          <span class="sm:hidden">指南</span>
+        </button>
+        <button id="quick-reset-btn" class="px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-slate-200 rounded-lg transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>重設</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Left Column: Emotion Selection & Palette Customization (5 Cols) -->
+      <section class="lg:col-span-5 space-y-6">
+
+        <!-- Step 1: Mood Selection -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm transition-all hover:shadow">
+          <div class="flex items-center justify-between mb-3.5">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700">
+              步驟 1
+            </span>
+            <span class="text-xs text-slate-400 font-medium">決定心境情感</span>
+          </div>
+          <h2 class="text-base font-bold text-slate-900 mb-1">選擇這張畫想要傳遞的心境</h2>
+          <p class="text-xs text-slate-500 mb-3.5">色彩是情緒的溫度計，不同心境將引導專屬的配色基調。</p>
+
+          <!-- Emotion Cards Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="mood-selector-group">
+            <button data-mood="calm" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-indigo-500 bg-indigo-50/60 shadow-sm">
+              <span class="text-lg">🌿</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">寧靜放鬆</div>
+              <div class="text-[11px] text-slate-500">平靜・舒緩</div>
+            </button>
+            <button data-mood="warmth" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 bg-white">
+              <span class="text-lg">☀️</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">溫暖希望</div>
+              <div class="text-[11px] text-slate-500">朝陽・安心</div>
+            </button>
+            <button data-mood="excited" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 bg-white">
+              <span class="text-lg">🔥</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">熱情興奮</div>
+              <div class="text-[11px] text-slate-500">活潑・奔放</div>
+            </button>
+            <button data-mood="tense" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 bg-white">
+              <span class="text-lg">⚡</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">焦慮緊繃</div>
+              <div class="text-[11px] text-slate-500">不安・刺激</div>
+            </button>
+            <button data-mood="lonely" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 bg-white">
+              <span class="text-lg">🌧️</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">孤獨疏離</div>
+              <div class="text-[11px] text-slate-500">冷清・沉默</div>
+            </button>
+            <button data-mood="mystic" class="mood-btn p-3 rounded-xl border-2 text-left transition-all border-slate-200 hover:border-slate-300 bg-white">
+              <span class="text-lg">🔮</span>
+              <div class="font-bold text-xs sm:text-sm text-slate-800 mt-1">神祕沉思</div>
+              <div class="text-[11px] text-slate-500">靜謐・幻想</div>
+            </button>
+          </div>
+
+          <!-- Suggested 3 Primary Colors -->
+          <div class="mt-4 pt-3.5 border-t border-slate-100">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-shapes text-indigo-500"></i> 建議主要基調（3 主色）
+              </span>
+              <span id="primary-concept-tag" class="text-[11px] text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full font-medium">柔和低明度鄰近色</span>
+            </div>
+            <div id="primary-swatches-container" class="grid grid-cols-3 gap-2.5 mb-2">
+              <!-- Rendered via JS -->
+            </div>
+            <p id="primary-description" class="text-xs text-slate-500 leading-relaxed italic">
+              使用低純度的灰青、淡藍與暖霧白，能降低視覺刺激，營造貓咪在晨曦微光中靜坐冥想的安定氣氛。
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm transition-all hover:shadow">
+          <div class="flex items-center justify-between mb-3.5">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700">
+              步驟 2
+            </span>
+            <span class="text-xs text-slate-400 font-medium">對比張力調校</span>
+          </div>
+          <h2 class="text-base font-bold text-slate-900 mb-1">對比色建議與張力設定</h2>
+          <p class="text-xs text-slate-500 mb-4">調節色彩衝突強度，決定畫面是融洽和諧還是強烈跳脫。</p>
+
+          <!-- Contrast Level Options -->
+          <div class="space-y-2 mb-4">
+            <label class="contrast-option flex items-center justify-between p-3 rounded-xl border border-slate-200 cursor-pointer hover:border-amber-300 transition-all bg-white" data-level="strong">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="contrast-level" value="strong" class="w-4 h-4 text-amber-600 focus:ring-amber-500 border-slate-300">
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-slate-800">強烈對比（跳脫・衝擊）</div>
+                  <div class="text-[11px] text-slate-500">色環 180° 互補色或極高明暗反差</div>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">High</span>
+            </label>
+
+            <label class="contrast-option flex items-center justify-between p-3 rounded-xl border-2 border-amber-500 bg-amber-50/50 cursor-pointer transition-all" data-level="medium">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="contrast-level" value="medium" checked class="w-4 h-4 text-amber-600 focus:ring-amber-500 border-slate-300">
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-slate-800">中度對比（平衡・活力）</div>
+                  <div class="text-[11px] text-slate-500">三色和弦或適度冷暖交織點綴</div>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">Mid</span>
+            </label>
+
+            <label class="contrast-option flex items-center justify-between p-3 rounded-xl border border-slate-200 cursor-pointer hover:border-amber-300 transition-all bg-white" data-level="weak">
+              <div class="flex items-center gap-2.5">
+                <input type="radio" name="contrast-level" value="weak" class="w-4 h-4 text-amber-600 focus:ring-amber-500 border-slate-300">
+                <div>
+                  <div class="text-xs sm:text-sm font-bold text-slate-800">弱對比 / 漸層（和諧・平穩）</div>
+                  <div class="text-[11px] text-slate-500">鄰近色、短調微明暗階梯</div>
+                </div>
+              </div>
+              <span class="text-xs font-mono font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded">Soft</span>
+            </label>
+          </div>
+
+          <!-- Suggested Contrast Colors -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                <i class="fa-solid fa-sparkles text-amber-500"></i> 對比推薦配色（點綴色）
+              </span>
+              <span id="contrast-theory-tag" class="text-[11px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full font-medium">冷暖撞色</span>
+            </div>
+            <div id="contrast-swatches-container" class="grid grid-cols-3 gap-2.5 mb-2">
+              <!-- Rendered via JS -->
+            </div>
+            <p id="contrast-description" class="text-xs text-slate-500 leading-relaxed italic">
+              加入帶有微暖金赭的亮色作為點綴，能使背影輪廓或窗框呈現視覺聚焦點。
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xs font-bold text-slate-700 tracking-wider">目前使用筆刷顏色</h3>
+            <span class="text-[11px] text-slate-400">點擊色塊即可換色填入畫布</span>
+          </div>
+
+          <div class="flex items-center gap-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div id="active-color-display" class="w-12 h-12 rounded-xl shadow-inner border border-black/10 flex-shrink-0 transition-transform active:scale-95" style="background-color: #64748B;"></div>
+            <div class="flex-grow">
+              <div class="flex items-center justify-between">
+                <span id="active-color-name" class="font-bold text-sm text-slate-800">灰調板岩藍</span>
+                <span id="active-color-hex" class="text-xs font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">#64748B</span>
+              </div>
+              <div class="flex items-center gap-2 mt-2">
+                <label class="text-xs text-slate-500 flex items-center gap-1 cursor-pointer hover:text-indigo-600">
+                  <i class="fa-solid fa-eye-dropper"></i> 自選色
+                  <input type="color" id="custom-color-input" value="#64748b" class="opacity-0 w-0 h-0">
+                </label>
+                <span class="text-slate-300">|</span>
+                <button id="add-to-history-btn" class="text-xs text-slate-500 hover:text-indigo-600 transition-colors">
+                  <i class="fa-solid fa-plus text-[10px]"></i> 儲存到色票
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Color Swatch Bank -->
+          <div class="mt-3.5">
+            <div class="text-[11px] font-semibold text-slate-400 mb-2">專屬推薦調色盤</div>
+            <div id="all-combined-swatches" class="flex flex-wrap gap-2">
+              <!-- Combined swatches filled by JS -->
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Interactive Coloring Canvas & Export (7 Cols) -->
+      <section class="lg:col-span-7 space-y-6">
+
+        <!-- Canvas Card -->
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-sm relative">
+          <!-- Canvas Top Toolbar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
+            <div>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
+                步驟 3
+              </span>
+              <h2 class="text-base font-bold text-slate-900 inline-block ml-1">點擊色塊為貓咪與窗景上色</h2>
+            </div>
+            
+            <!-- Undo / Redo / Clear Tools -->
+            <div class="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
+              <button id="btn-undo" title="上一步 (Undo)" class="p-2 w-8 h-8 rounded-lg text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center justify-center text-xs">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <button id="btn-redo" title="下一步 (Redo)" class="p-2 w-8 h-8 rounded-lg text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center justify-center text-xs">
+                <i class="fa-solid fa-rotate-right"></i>
+              </button>
+              <span class="text-slate-300">|</span>
+              <button id="btn-clear-canvas" title="清空全部色彩" class="p-2 w-8 h-8 rounded-lg text-slate-600 hover:bg-rose-50 hover:text-rose-600 transition-all flex items-center justify-center text-xs">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Area Description Tooltip -->
+          <div class="flex items-center justify-between text-xs text-slate-500 mb-2 px-1">
+            <span id="hover-region-text" class="flex items-center gap-1.5">
+              <i class="fa-regular fa-hand-pointer text-indigo-500"></i>
+              滑鼠移至區域點擊填色
+            </span>
+            <span class="text-[11px] text-slate-400">貓咪 3 塊分割 ＋ 窗景 7 塊簡約幾何（共 10 區）</span>
+          </div>
+
+          <div class="w-full bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 p-2 sm:p-4 flex items-center justify-center overflow-hidden shadow-inner">
+            <div class="w-full max-w-[460px] aspect-[2/3] relative flex items-center justify-center">
+              
+              <svg id="cat-coloring-svg" viewBox="0 0 600 900" class="w-full h-full drop-shadow-md select-none" xmlns="http://www.w3.org/2000/svg">
+                
+                <!-- ================= LAYER 1: BACKGROUND 7 CLEAN GEOMETRIC PANELS ================= -->
+                <!-- 1. Left Upper Sky / Distant Building -->
+                <polygon id="bg-1" data-label="左上方幾何天際" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="0,0 200,0 200,320 0,250" />
+
+                <!-- 2. Left Middle Window / Tree Geometry -->
+                <polygon id="bg-2" data-label="左側幾何窗櫺" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="0,250 200,320 200,700 0,650" />
+
+                <!-- 3. Top-Center High Sky Window -->
+                <polygon id="bg-3" data-label="頂部正中窗天光" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="200,0 400,0 400,320 200,320" />
+
+                <!-- 4. Right Upper Distant Skyline -->
+                <polygon id="bg-4" data-label="右上方天際輪廓" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="400,0 600,0 600,280 400,320" />
+
+                <!-- 5. Right Middle Diagonal Glass Pane -->
+                <polygon id="bg-5" data-label="右側透視斜角窗" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="400,320 600,280 600,680 400,560" />
+
+                <!-- 6. Left Floor / Lower Platform -->
+                <polygon id="bg-6" data-label="左下方室內窗台基底" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="0,650 200,700 200,900 0,900" />
+
+                <!-- 7. Right Floor / Perspective Platform -->
+                <polygon id="bg-7" data-label="右下方窗台透視地坪" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="3.5" stroke-linejoin="round"
+                         points="200,900 200,700 400,560 600,680 600,900" />
+
+                <!-- Decorative minimal geometry lines (window frame accents, non-clickable) -->
+                <line x1="200" y1="0" x2="200" y2="700" stroke="#0F172A" stroke-width="3.5" pointer-events="none" />
+                <line x1="400" y1="0" x2="400" y2="560" stroke="#0F172A" stroke-width="3.5" pointer-events="none" />
+                <line x1="200" y1="700" x2="600" y2="680" stroke="#0F172A" stroke-width="3.5" pointer-events="none" />
+                <line x1="0" y1="250" x2="200" y2="320" stroke="#0F172A" stroke-width="3.5" pointer-events="none" />
+                <line x1="400" y1="320" x2="600" y2="280" stroke="#0F172A" stroke-width="3.5" pointer-events="none" />
+                <line x1="50" y1="320" x2="50" y2="540" stroke="#0F172A" stroke-width="2.5" stroke-dasharray="6,4" pointer-events="none" />
+                <line x1="50" y1="420" x2="150" y2="380" stroke="#0F172A" stroke-width="2.5" pointer-events="none" />
+
+                <!-- ================= LAYER 2: CAT SILHOUETTE (EXACTLY 3 ARTISTIC PARTS) ================= -->
+                
+                <!-- 1. Cat Head & Ears (Segment 1: Upper) -->
+                <path id="cat-1" data-label="貓咪頭部與雙耳" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"
+                      d="M 215,385 
+                         C 195,330 185,250 200,195
+                         C 202,175 198,125 204,95
+                         C 214,85 244,115 265,140
+                         C 285,134 315,134 335,140
+                         C 356,115 386,85 396,95
+                         C 402,125 398,175 400,195
+                         C 415,250 405,330 385,385
+                         C 335,405 265,405 215,385 Z" />
+
+                <!-- Decorative whiskers & ears outline -->
+                <path d="M 220,118 L 245,152" stroke="#0F172A" stroke-width="3" stroke-linecap="round" pointer-events="none" />
+                <path d="M 380,118 L 355,152" stroke="#0F172A" stroke-width="3" stroke-linecap="round" pointer-events="none" />
+                <path d="M 195,230 L 140,218 M 190,245 L 130,245 M 195,260 L 138,272" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" pointer-events="none"/>
+                <path d="M 405,230 L 460,218 M 410,245 L 470,245 M 405,260 L 462,272" stroke="#0F172A" stroke-width="2.5" stroke-linecap="round" pointer-events="none"/>
+
+                <!-- 2. Cat Torso / Back (Segment 2: Middle) -->
+                <path id="cat-2" data-label="貓咪中段身軀" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"
+                      d="M 215,385 
+                         C 265,405 335,405 385,385
+                         C 410,445 440,515 450,570
+                         C 350,588 250,588 150,570
+                         C 160,515 190,445 215,385 Z" />
+
+                <!-- 3. Cat Hips & Tail (Segment 3: Lower Body + Flowing Tail) -->
+                <path id="cat-3" data-label="貓咪下身與修長尾巴" class="color-part" fill="#FFFFFF" stroke="#0F172A" stroke-width="4" stroke-linejoin="round"
+                      d="M 150,570
+                         C 250,588 350,588 450,570
+                         C 475,640 480,720 440,775
+                         C 405,820 375,795 360,765
+                         C 362,790 375,815 410,865
+                         C 445,910 460,955 395,980
+                         C 330,980 340,895 315,845
+                         C 298,805 265,785 255,765
+                         C 205,770 165,745 135,690
+                         C 120,640 135,595 150,570 Z" />
+
+                <!-- Solid Outer Frame Line -->
+                <rect x="2" y="2" width="596" height="896" fill="none" stroke="#0F172A" stroke-width="4"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200/90 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-purple-50 text-purple-700">
+              步驟 4
+            </span>
+            <span class="text-xs text-slate-400 font-medium">學習反思與存檔</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">創作者姓名 / 座號</label>
+              <input type="text" id="creator-name-input" placeholder="例如：702班 18號 林小貓" class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">作品命名或一句心境感受</label>
+              <input type="text" id="art-title-input" placeholder="例如：雨後午後的微光沉思" class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all">
+            </div>
+          </div>
+
+          <!-- Color palette breakdown badge row -->
+          <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2">
+              <span class="text-slate-500 font-medium">目前配色模式：</span>
+              <span id="summary-mood-badge" class="font-bold text-indigo-700 bg-indigo-100/70 px-2 py-0.5 rounded-md">寧靜放鬆</span>
+              <span id="summary-contrast-badge" class="font-bold text-amber-700 bg-amber-100/70 px-2 py-0.5 rounded-md">中度對比</span>
+            </div>
+            <div id="canvas-fill-count" class="text-slate-500">
+              已著色：<strong class="text-slate-800" id="filled-count-text">0 / 10</strong> 區塊
+            </div>
+          </div>
+
+          <!-- Download & Share Buttons -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+            <button id="btn-download-art" class="w-full sm:flex-1 py-3 px-5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-down"></i>
+              <span>下載作品圖檔 (PNG)</span>
+            </button>
+            <button id="btn-copy-reflection" class="w-full sm:w-auto py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium text-sm transition-all flex items-center justify-center gap-2">
+              <i class="fa-regular fa-clipboard"></i>
+              <span>複製學習單文字紀錄</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <div id="guide-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white max-w-lg w-full rounded-2xl p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+        <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-graduation-cap text-indigo-600"></i>
+          色彩對比小任務引導
+        </h3>
+        <button id="close-modal-btn" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+        <div class="p-3.5 bg-indigo-50 rounded-xl">
+          <h4 class="font-bold text-indigo-900 mb-1">💡 任務一：心境與主色調（同調鋪陳）</h4>
+          <p>主色調就像整個空間的背景音樂。平靜時多用低彩度與冷色，緊張激動時多用高純度暖色。</p>
+        </div>
+
+        <div class="p-3.5 bg-amber-50 rounded-xl">
+          <h4 class="font-bold text-amber-900 mb-1">⚖️ 任務二：歌德色彩面積與對比色（點綴焦點）</h4>
+          <p>對比色是畫面中的「視覺焦點」。若是強烈互補色（如藍配橘、紫配黃），建議維持<strong>「小面積點睛，大面積鋪陳」</strong>，畫面生動而不刺眼。</p>
+        </div>
+
+        <div class="p-3.5 bg-slate-50 rounded-xl">
+          <h4 class="font-bold text-slate-900 mb-1">🐱 任務三：貓咪背影的 3 塊分割</h4>
+          <p>你可以嘗試讓貓咪的三個色塊階梯漸層（弱對比），或讓背部正中間大膽跳色（強對比），觀察哪一種最能抓住你的視線！</p>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-slate-100 text-right">
+        <button id="close-modal-btn-2" class="px-4 py-2 bg-indigo-600 text-white rounded-xl font-bold text-sm hover:bg-indigo-700 transition-colors">
+          開始創作
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification message -->
+  <div id="app-toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl text-xs font-medium flex items-center gap-2 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+    <span id="toast-message">操作成功</span>
+  </div>
+
+  <!-- Hidden Canvas for high-res PNG export rendering -->
+  <canvas id="export-render-canvas" class="hidden"></canvas>
+
+  <script>
+    const MOOD_PRESETS = {
+      calm: {
+        label: "寧靜放鬆",
+        concept: "柔和低明度鄰近色",
+        desc: "使用低純度的灰青、淡藍與暖霧白，能降低視覺刺激，營造貓咪在晨曦微光中靜坐冥想的安定氣氛。",
+        primary: [
+          { name: "灰調板岩藍", hex: "#64748B" },
+          { name: "晨霧淡青藍", hex: "#93C5FD" },
+          { name: "柔和米白", hex: "#F1F5F9" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "清冷配暖琥珀 (互補刺激)",
+            desc: "在冷藍中注入一抹亮暖橙，如破曉晨光穿透窗櫺。",
+            colors: [
+              { name: "金黃琥珀", hex: "#F59E0B" },
+              { name: "夕陽暖橘", hex: "#EA580C" },
+              { name: "暖陶赭石", hex: "#B45309" }
+            ]
+          },
+          medium: {
+            concept: "溫潤米駝調和 (明暗適中)",
+            desc: "加入溫潤的木質調與淡鵝黃，維持放鬆但具有視覺層次。",
+            colors: [
+              { name: "晨光淡黃", hex: "#FDE68A" },
+              { name: "溫潤淺駝", hex: "#D6D3D1" },
+              { name: "柔杏暖粉", hex: "#FED7AA" }
+            ]
+          },
+          weak: {
+            concept: "水霧微階梯 (低差漸層)",
+            desc: "近乎同色系的藍灰微調，如水氣瀰漫的靜止時光。",
+            colors: [
+              { name: "深苔墨綠", hex: "#475569" },
+              { name: "冰川淡白", hex: "#E2E8F0" },
+              { name: "冷杉幽青", hex: "#6B7280" }
+            ]
+          }
+        }
+      },
+      warmth: {
+        label: "溫暖希望",
+        concept: "暖色和弦與向陽感",
+        desc: "以鵝黃、杏桃與柔暖橘紅為主，呈現灑滿金黃陽光的午後窗台，充滿安全感與生機。",
+        primary: [
+          { name: "暖陽鵝黃", hex: "#FBBF24" },
+          { name: "粉杏暖橙", hex: "#FB923C" },
+          { name: "奶油暖白", hex: "#FEF3C7" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "湛藍撞擊暖金 (強冷暖補色)",
+            desc: "深邃的群青與暖金對撞，如蔚藍晴空映照著金黃毛色。",
+            colors: [
+              { name: "寶石湛藍", hex: "#2563EB" },
+              { name: "深邃海藍", hex: "#1D4ED8" },
+              { name: "亮靛青色", hex: "#0284C7" }
+            ]
+          },
+          medium: {
+            concept: "青碧綠意調和 (三色和弦)",
+            desc: "綠意窗景平衡了暖色的炙熱，給人舒適的庭園午後感。",
+            colors: [
+              { name: "橄欖青綠", hex: "#16A34A" },
+              { name: "薄荷淡青", hex: "#86EFAC" },
+              { name: "鼠尾草綠", hex: "#4ADE80" }
+            ]
+          },
+          weak: {
+            concept: "同暖系明暗層次 (微弱對比)",
+            desc: "深橘與蜜糖色漸層，散發烘焙麵包般的濃郁柔和香氣。",
+            colors: [
+              { name: "蜜糖棕紅", hex: "#C2410C" },
+              { name: "柔和香檳", hex: "#FDE047" },
+              { name: "焦糖暖棕", hex: "#9A3412" }
+            ]
+          }
+        }
+      },
+      excited: {
+        label: "熱情興奮",
+        concept: "高彩度強烈衝撞",
+        desc: "朱紅、亮橙與飽和金黃，象徵躍動的心情，貓咪彷彿隨時準備撲向窗外飛過的鳥兒。",
+        primary: [
+          { name: "盛宴朱紅", hex: "#EF4444" },
+          { name: "火焰鮮橙", hex: "#F97316" },
+          { name: "烈日耀黃", hex: "#EAB308" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "翠綠紫電極限對比 (高飽和補色)",
+            desc: "極端的補色碰撞，釋放最強烈的視覺能量與興奮衝擊。",
+            colors: [
+              { name: "電光翡翠", hex: "#10B981" },
+              { name: "深魅紫羅蘭", hex: "#7C3AED" },
+              { name: "亮青綠", hex: "#22C55E" }
+            ]
+          },
+          medium: {
+            concept: "電氣青藍調和 (冷暖拉扯)",
+            desc: "亮藍色框線切開熱情暖塊，產生強而有力的現代藝術節奏。",
+            colors: [
+              { name: "電氣水藍", hex: "#06B6D4" },
+              { name: "湛藍中調", hex: "#3B82F6" },
+              { name: "亮草青", hex: "#84CC16" }
+            ]
+          },
+          weak: {
+            concept: "火光同質律動 (長調強弱)",
+            desc: "深洋紅與艷橘彼此烘托，如熾熱燃燒的壁爐柴火。",
+            colors: [
+              { name: "深玫瑰紅", hex: "#B91C1C" },
+              { name: "亮蜜桃粉", hex: "#FB7185" },
+              { name: "金黃邊光", hex: "#FACC15" }
+            ]
+          }
+        }
+      },
+      tense: {
+        label: "焦慮緊繃",
+        concept: "高暗黑搭配毒性螢光",
+        desc: "深黑、暗褐與刺眼的警戒黃綠交錯，創造出不安、壓抑且充滿張力的警戒狀態。",
+        primary: [
+          { name: "午夜黑曜", hex: "#0F172A" },
+          { name: "暗夜紫褐", hex: "#312E81" },
+          { name: "冷石炭灰", hex: "#334155" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "警告黃綠刺破深黑 (極高明度差)",
+            desc: "在極度深暗的環境中突然亮起刺目螢光，形成強烈神經緊繃。",
+            colors: [
+              { name: "警戒螢光黃", hex: "#FACC15" },
+              { name: "毒性酸橙綠", hex: "#84CC16" },
+              { name: "刺目鮮紅", hex: "#DC2626" }
+            ]
+          },
+          medium: {
+            concept: "冷鐵鏽橘點綴 (暗調衝突)",
+            desc: "暗鐵鏽色穿插於冷灰黑之間，呈現廢棄工業風的焦灼感。",
+            colors: [
+              { name: "鐵鏽紅褐", hex: "#991B1B" },
+              { name: "泥濘暗赭", hex: "#78350F" },
+              { name: "冷金屬灰", hex: "#64748B" }
+            ]
+          },
+          weak: {
+            concept: "深淵低階灰暗 (無光窒息)",
+            desc: "所有顏色壓縮在極暗區間，微弱的輪廓線讓人神經高度警覺。",
+            colors: [
+              { name: "幽暗深藍", hex: "#1E1B4B" },
+              { name: "鉛灰中調", hex: "#475569" },
+              { name: "微光冷灰", hex: "#94A3B8" }
+            ]
+          }
+        }
+      },
+      lonely: {
+        label: "孤獨疏離",
+        concept: "低彩度冷灰色調",
+        desc: "抽離所有飽和暖度，使用霧灰、冰藍與枯朽青灰，彷彿世界只剩下貓咪凝視雨霧的孤寂背影。",
+        primary: [
+          { name: "雨霧冷灰", hex: "#94A3B8" },
+          { name: "沉寂鉛藍", hex: "#475569" },
+          { name: "霜凍蒼白", hex: "#CBD5E1" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "孤獨中的微弱心跳 (枯草點綴)",
+            desc: "在一片灰濛中留下一抹枯黃或乾燥玫瑰色，如同記憶中的殘溫。",
+            colors: [
+              { name: "乾燥玫瑰", hex: "#BE123C" },
+              { name: "枯木暗黃", hex: "#CA8A04" },
+              { name: "微弱暖茶", hex: "#A16207" }
+            ]
+          },
+          medium: {
+            concept: "微光水藍過渡 (清冷疏離)",
+            desc: "加入極淺的冷白藍，凸顯窗外與室內的冰冷隔離感。",
+            colors: [
+              { name: "冰川淡白", hex: "#E0F2FE" },
+              { name: "深苔墨綠", hex: "#334155" },
+              { name: "月光淡青", hex: "#BAE6FD" }
+            ]
+          },
+          weak: {
+            concept: "極簡短調無彩色 (極致平靜孤絕)",
+            desc: "僅由黑白灰組成的低對比階梯，情感完全隱入沉默。",
+            colors: [
+              { name: "玄武岩黑", hex: "#1E293B" },
+              { name: "塵埃中灰", hex: "#64748B" },
+              { name: "紙白微光", hex: "#F8FAFC" }
+            ]
+          }
+        }
+      },
+      mystic: {
+        label: "神祕沉思",
+        concept: "幽邃紫羅蘭與夜幕調",
+        desc: "深邃的紫夜、幻象青與星塵淡紫，交織出魔幻哲思氛圍，貓咪宛如守護夢境時空的哲學家。",
+        primary: [
+          { name: "星夜深紫", hex: "#6D28D9" },
+          { name: "夢境薰衣草", hex: "#C084FC" },
+          { name: "月暈幽粉", hex: "#F3E8FF" }
+        ],
+        contrastGuide: {
+          strong: {
+            concept: "神秘黃金與星光 (魔幻補色)",
+            desc: "深紫色與明亮檸檬金黃產生經典魔幻反差，引人入勝。",
+            colors: [
+              { name: "星芒金黃", hex: "#FACC15" },
+              { name: "月影熒綠", hex: "#4ADE80" },
+              { name: "耀光橙紅", hex: "#FB923C" }
+            ]
+          },
+          medium: {
+            concept: "幻境水綠相伴 (冷色深層調和)",
+            desc: "薄荷青綠在紫夜中點綴，如夢幻極光劃過夜空。",
+            colors: [
+              { name: "極光水綠", hex: "#2DD4BF" },
+              { name: "夜海深藍", hex: "#3B82F6" },
+              { name: "淺青玉色", hex: "#99F6E4" }
+            ]
+          },
+          weak: {
+            concept: "紫調夢幻光暈 (柔和漸層)",
+            desc: "在粉紫、洋紅與深李色中遊走，充滿細膩悠長的心靈對話。",
+            colors: [
+              { name: "深李漿果", hex: "#4C1D95" },
+              { name: "微光洋紅", hex: "#A855F7" },
+              { name: "霧紫微光", hex: "#E9D5FF" }
+            ]
+          }
+        }
+      }
+    };
+
+    // State variables
+    let currentMood = "calm";
+    let currentContrastLevel = "medium";
+    let activeBrushColor = "#64748B";
+    let activeColorName = "灰調板岩藍";
+
+    // Undo / Redo history tracking for filled sections
+    let colorHistory = [];
+    let historyStep = -1;
+
+    // Default part colors tracking
+    const partColorMap = {};
+
+    // Elements
+    const moodButtons = document.querySelectorAll(".mood-btn");
+    const contrastOptionLabels = document.querySelectorAll(".contrast-option");
+    
+    const primarySwatchesContainer = document.getElementById("primary-swatches-container");
+    const contrastSwatchesContainer = document.getElementById("contrast-swatches-container");
+    const allCombinedSwatches = document.getElementById("all-combined-swatches");
+    
+    const primaryConceptTag = document.getElementById("primary-concept-tag");
+    const primaryDescription = document.getElementById("primary-description");
+    const contrastTheoryTag = document.getElementById("contrast-theory-tag");
+    const contrastDescription = document.getElementById("contrast-description");
+    
+    const activeColorDisplay = document.getElementById("active-color-display");
+    const activeColorNameEl = document.getElementById("active-color-name");
+    const activeColorHexEl = document.getElementById("active-color-hex");
+    const customColorInput = document.getElementById("custom-color-input");
+    const addToHistoryBtn = document.getElementById("add-to-history-btn");
+
+    const svgCanvas = document.getElementById("cat-coloring-svg");
+    const colorableParts = document.querySelectorAll(".color-part");
+    const hoverRegionText = document.getElementById("hover-region-text");
+    const filledCountText = document.getElementById("filled-count-text");
+    const summaryMoodBadge = document.getElementById("summary-mood-badge");
+    const summaryContrastBadge = document.getElementById("summary-contrast-badge");
+
+    const btnUndo = document.getElementById("btn-undo");
+    const btnRedo = document.getElementById("btn-redo");
+    const btnClearCanvas = document.getElementById("btn-clear-canvas");
+    const quickResetBtn = document.getElementById("quick-reset-btn");
+    const btnDownloadArt = document.getElementById("btn-download-art");
+    const btnCopyReflection = document.getElementById("btn-copy-reflection");
+
+    // Modal elements
+    const guideModalBtn = document.getElementById("guide-modal-btn");
+    const guideModal = document.getElementById("guide-modal");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+    const closeModalBtn2 = document.getElementById("close-modal-btn-2");
+
+    // Toast element
+    const appToast = document.getElementById("app-toast");
+    const toastMessage = document.getElementById("toast-message");
+
+    function showToast(message, iconClass = "fa-circle-check text-emerald-400") {
+      toastMessage.textContent = message;
+      const icon = appToast.querySelector("i");
+      icon.className = `fa-solid ${iconClass}`;
+      appToast.classList.remove("translate-y-16", "opacity-0");
+      appToast.classList.add("translate-y-0", "opacity-100");
+      setTimeout(() => {
+        appToast.classList.remove("translate-y-0", "opacity-100");
+        appToast.classList.add("translate-y-16", "opacity-0");
+      }, 2400);
+    }
+
+    function updatePaletteUI() {
+      const moodData = MOOD_PRESETS[currentMood];
+      const contrastData = moodData.contrastGuide[currentContrastLevel];
+
+      // Update concept labels and descriptions
+      primaryConceptTag.textContent = moodData.concept;
+      primaryDescription.textContent = moodData.desc;
+      contrastTheoryTag.textContent = contrastData.concept;
+      contrastDescription.textContent = contrastData.desc;
+
+      summaryMoodBadge.textContent = moodData.label;
+      const levelLabels = { strong: "強烈對比", medium: "中度對比", weak: "弱對比 / 漸層" };
+      summaryContrastBadge.textContent = levelLabels[currentContrastLevel];
+
+      // Render 3 Primary Swatches
+      primarySwatchesContainer.innerHTML = "";
+      moodData.primary.forEach((item) => {
+        const swatchBtn = document.createElement("button");
+        swatchBtn.type = "button";
+        swatchBtn.className = "flex flex-col items-center gap-1.5 p-2 rounded-xl border border-slate-200 hover:border-indigo-400 hover:shadow-sm bg-white transition-all text-left group";
+        swatchBtn.innerHTML = `
+          <div class="w-full h-8 rounded-lg shadow-inner border border-black/10 group-hover:scale-105 transition-transform" style="background-color:${item.hex};"></div>
+          <span class="text-[11px] font-bold text-slate-700 truncate w-full text-center">${item.name}</span>
+          <span class="text-[10px] font-mono text-slate-400">${item.hex}</span>
+        `;
+        swatchBtn.onclick = () => selectBrushColor(item.hex, item.name);
+        primarySwatchesContainer.appendChild(swatchBtn);
+      });
+
+      // Render Contrast Recommended Swatches
+      contrastSwatchesContainer.innerHTML = "";
+      contrastData.colors.forEach((item) => {
+        const swatchBtn = document.createElement("button");
+        swatchBtn.type = "button";
+        swatchBtn.className = "flex flex-col items-center gap-1.5 p-2 rounded-xl border border-slate-200 hover:border-amber-400 hover:shadow-sm bg-white transition-all text-left group";
+        swatchBtn.innerHTML = `
+          <div class="w-full h-8 rounded-lg shadow-inner border border-black/10 group-hover:scale-105 transition-transform" style="background-color:${item.hex};"></div>
+          <span class="text-[11px] font-bold text-slate-700 truncate w-full text-center">${item.name}</span>
+          <span class="text-[10px] font-mono text-slate-400">${item.hex}</span>
+        `;
+        swatchBtn.onclick = () => selectBrushColor(item.hex, item.name);
+        contrastSwatchesContainer.appendChild(swatchBtn);
+      });
+
+      // Combined Palette quick picks
+      allCombinedSwatches.innerHTML = "";
+      const combined = [...moodData.primary, ...contrastData.colors];
+      combined.forEach((item) => {
+        const circleBtn = document.createElement("button");
+        circleBtn.type = "button";
+        circleBtn.title = `${item.name} (${item.hex})`;
+        circleBtn.className = "w-7 h-7 rounded-lg shadow-sm border border-black/20 hover:scale-110 active:scale-95 transition-transform";
+        circleBtn.style.backgroundColor = item.hex;
+        circleBtn.onclick = () => selectBrushColor(item.hex, item.name);
+        allCombinedSwatches.appendChild(circleBtn);
+      });
+
+      if (!activeBrushColor) {
+        selectBrushColor(moodData.primary[0].hex, moodData.primary[0].name);
+      }
+    }
+
+    function selectBrushColor(hex, name = "自訂色彩") {
+      activeBrushColor = hex;
+      activeColorName = name;
+      activeColorDisplay.style.backgroundColor = hex;
+      activeColorHexEl.textContent = hex.toUpperCase();
+      activeColorNameEl.textContent = name;
+      customColorInput.value = hex;
+    }
+
+    function saveHistorySnapshot() {
+      const snapshot = {};
+      colorableParts.forEach(part => {
+        snapshot[part.id] = part.getAttribute("fill") || "#FFFFFF";
+      });
+
+      if (historyStep < colorHistory.length - 1) {
+        colorHistory = colorHistory.slice(0, historyStep + 1);
+      }
+
+      colorHistory.push(snapshot);
+      historyStep++;
+      updateUndoRedoButtons();
+      updateFilledCounter();
+    }
+
+    function applyHistorySnapshot(stepIndex) {
+      if (stepIndex < 0 || stepIndex >= colorHistory.length) return;
+      const snapshot = colorHistory[stepIndex];
+      colorableParts.forEach(part => {
+        const fill = snapshot[part.id] || "#FFFFFF";
+        part.setAttribute("fill", fill);
+        partColorMap[part.id] = fill;
+      });
+      updateFilledCounter();
+      updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+      btnUndo.disabled = (historyStep <= 0);
+      btnRedo.disabled = (historyStep >= colorHistory.length - 1);
+    }
+
+    function updateFilledCounter() {
+      let filled = 0;
+      colorableParts.forEach(part => {
+        const fill = part.getAttribute("fill");
+        if (fill && fill.toUpperCase() !== "#FFFFFF") {
+          filled++;
+        }
+      });
+      filledCountText.textContent = `${filled} / ${colorableParts.length}`;
+    }
+
+    colorableParts.forEach(part => {
+      partColorMap[part.id] = "#FFFFFF";
+
+      part.addEventListener("click", () => {
+        part.setAttribute("fill", activeBrushColor);
+        partColorMap[part.id] = activeBrushColor;
+        saveHistorySnapshot();
+
+        // Subtle micro-pulse animation
+        part.style.transformOrigin = "center";
+        part.style.transform = "scale(0.995)";
+        setTimeout(() => {
+          part.style.transform = "none";
+        }, 100);
+      });
+
+      part.addEventListener("mouseenter", () => {
+        const label = part.getAttribute("data-label") || "區域";
+        const currentFill = part.getAttribute("fill") || "#FFFFFF";
+        hoverRegionText.innerHTML = `
+          <i class="fa-solid fa-paintbrush text-indigo-600"></i>
+          <span>${label}</span>
+          <span class="font-mono text-[10px] text-slate-400">(${currentFill.toUpperCase()})</span>
+        `;
+      });
+
+      part.addEventListener("mouseleave", () => {
+        hoverRegionText.innerHTML = `
+          <i class="fa-regular fa-hand-pointer text-indigo-500"></i>
+          <span>滑鼠移至區域點擊填色</span>
+        `;
+      });
+    });
+
+    moodButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        moodButtons.forEach(b => {
+          b.classList.remove("border-indigo-500", "bg-indigo-50/60", "shadow-sm");
+          b.classList.add("border-slate-200", "bg-white");
+        });
+        btn.classList.remove("border-slate-200", "bg-white");
+        btn.classList.add("border-indigo-500", "bg-indigo-50/60", "shadow-sm");
+
+        currentMood = btn.getAttribute("data-mood");
+        updatePaletteUI();
+        showToast(`已切換至「${MOOD_PRESETS[currentMood].label}」情緒調色`);
+      });
+    });
+
+    contrastOptionLabels.forEach(label => {
+      label.addEventListener("click", () => {
+        const level = label.getAttribute("data-level");
+        const radio = label.querySelector('input[type="radio"]');
+        radio.checked = true;
+
+        contrastOptionLabels.forEach(l => {
+          l.classList.remove("border-2", "border-amber-500", "bg-amber-50/50");
+          l.classList.add("border", "border-slate-200", "bg-white");
+        });
+
+        label.classList.remove("border", "border-slate-200", "bg-white");
+        label.classList.add("border-2", "border-amber-500", "bg-amber-50/50");
+
+        currentContrastLevel = level;
+        updatePaletteUI();
+      });
+    });
+
+    customColorInput.addEventListener("input", (e) => {
+      selectBrushColor(e.target.value, "自選色");
+    });
+
+    addToHistoryBtn.addEventListener("click", () => {
+      const circleBtn = document.createElement("button");
+      circleBtn.type = "button";
+      circleBtn.title = `自訂色票 (${activeBrushColor})`;
+      circleBtn.className = "w-7 h-7 rounded-lg shadow-sm border border-black/20 hover:scale-110 active:scale-95 transition-transform";
+      circleBtn.style.backgroundColor = activeBrushColor;
+      const hex = activeBrushColor;
+      circleBtn.onclick = () => selectBrushColor(hex, "儲存色票");
+      allCombinedSwatches.prepend(circleBtn);
+      showToast("已加入自訂色票區！");
+    });
+
+    btnUndo.addEventListener("click", () => {
+      if (historyStep > 0) {
+        historyStep--;
+        applyHistorySnapshot(historyStep);
+      }
+    });
+
+    btnRedo.addEventListener("click", () => {
+      if (historyStep < colorHistory.length - 1) {
+        historyStep++;
+        applyHistorySnapshot(historyStep);
+      }
+    });
+
+    function resetAllCanvasColors() {
+      colorableParts.forEach(part => {
+        part.setAttribute("fill", "#FFFFFF");
+        partColorMap[part.id] = "#FFFFFF";
+      });
+      saveHistorySnapshot();
+      showToast("畫布已清空重置");
+    }
+
+    btnClearCanvas.addEventListener("click", resetAllCanvasColors);
+    quickResetBtn.addEventListener("click", resetAllCanvasColors);
+
+    // Modal Events
+    guideModalBtn.addEventListener("click", () => guideModal.classList.remove("hidden"));
+    closeModalBtn.addEventListener("click", () => guideModal.classList.add("hidden"));
+    closeModalBtn2.addEventListener("click", () => guideModal.classList.add("hidden"));
+    guideModal.addEventListener("click", (e) => {
+      if (e.target === guideModal) guideModal.classList.add("hidden");
+    });
+
+    btnCopyReflection.addEventListener("click", () => {
+      const studentName = document.getElementById("creator-name-input").value.trim() || "未具名同學";
+      const artTitle = document.getElementById("art-title-input").value.trim() || "無標題創作";
+      const mood = MOOD_PRESETS[currentMood].label;
+      const contrast = currentContrastLevel === "strong" ? "強烈對比" : currentContrastLevel === "medium" ? "中度對比" : "弱對比 / 漸層";
+
+      const reflectionText = `【色彩對比學習紀錄】
+創作者：${studentName}
+作品名稱：${artTitle}
+選擇情緒：${mood}
+色彩對比策略：${contrast}
+心得備註：運用了 3 塊貓咪背影分割與窗框 7 塊幾何色塊搭配，實踐主從面積與對比律。`;
+
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = reflectionText;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.opacity = "0";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      try {
+        document.execCommand("copy");
+        showToast("已複製學習紀錄至剪貼簿！可貼到學習單或繳交作業");
+      } catch (err) {
+        showToast("複製失敗，請手動選取文字", "fa-circle-exclamation text-amber-400");
+      }
+      document.body.removeChild(tempTextArea);
+    });
+
+    btnDownloadArt.addEventListener("click", () => {
+      const studentName = document.getElementById("creator-name-input").value.trim() || "藝術創作者";
+      const artTitle = document.getElementById("art-title-input").value.trim() || "貓咪窗景色彩對比創作";
+
+      // Clone SVG and clean filters for accurate rasterization
+      const svgClone = svgCanvas.cloneNode(true);
+      svgClone.querySelectorAll(".color-part").forEach(el => {
+        el.style.filter = "none";
+      });
+
+      const svgString = new XMLSerializer().serializeToString(svgClone);
+      const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.getElementById("export-render-canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Target High Resolution poster dimensions: 1200 x 1950
+        canvas.width = 1200;
+        canvas.height = 1950;
+
+        // Background card canvas
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Header decorative banner
+        ctx.fillStyle = "#F8FAFC";
+        ctx.fillRect(40, 40, canvas.width - 80, 160);
+
+        // Header Text: Title
+        ctx.fillStyle = "#0F172A";
+        ctx.font = "bold 44px 'Noto Sans TC', sans-serif";
+        ctx.fillText(artTitle, 80, 110);
+
+        // Header Text: Metadata tags
+        ctx.fillStyle = "#64748B";
+        ctx.font = "500 24px 'Noto Sans TC', sans-serif";
+        const metaStr = `創作者：${studentName}  |  情緒設定：${MOOD_PRESETS[currentMood].label}  |  對比度：${summaryContrastBadge.textContent}`;
+        ctx.fillText(metaStr, 80, 158);
+
+        // Draw Artwork in center
+        const artX = 80;
+        const artY = 230;
+        const artW = 1040;
+        const artH = 1560;
+
+        ctx.shadowColor = "rgba(0, 0, 0, 0.08)";
+        ctx.shadowBlur = 24;
+        ctx.shadowOffsetY = 8;
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(artX, artY, artW, artH);
+        ctx.shadowColor = "transparent";
+
+        // Render main SVG image
+        ctx.drawImage(img, artX, artY, artW, artH);
+
+        // Footer brand / course note
+        ctx.fillStyle = "#94A3B8";
+        ctx.font = "400 20px 'Noto Sans TC', sans-serif";
+        ctx.textAlign = "center";
+        const dateStr = new Date().toLocaleDateString("zh-TW");
+        ctx.fillText(`《情緒調色盤：貓咪的窗景與色彩對比》微型學習成果  •  ${dateStr}`, canvas.width / 2, 1880);
+
+        // Download PNG
+        const pngURL = canvas.toDataURL("image/png");
+        const downloadLink = document.createElement("a");
+        downloadLink.download = `${studentName}_貓咪色彩對比創作_${MOOD_PRESETS[currentMood].label}.png`;
+        downloadLink.href = pngURL;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        URLObj.revokeObjectURL(blobURL);
+        showToast("創作圖檔已成功產生並下載！");
+      };
+
+      img.src = blobURL;
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      updatePaletteUI();
+      selectBrushColor("#64748B", "灰調板岩藍");
+      saveHistorySnapshot();
+    });
+  </script>
+</body>
+</html>
